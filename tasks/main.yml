@@ -1,0 +1,7 @@
+---
+# tasks file for filebeat
+- include: "ubuntu.yml"
+  when: ansible_os_family == 'Debian'
+
+- include: "windows.yml"
+  when: ansible_os_family == 'Windows'

@@ -1,0 +1,4 @@
+---
+# defaults file for filebeat
+filebeat_logstash_hosts: []
+filebeat_logstash_port: 5044

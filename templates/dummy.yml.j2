@@ -1,0 +1,6 @@
+# {{ ansible_managed }}
+filebeat:
+  prospectors:
+    - input_type: log
+      paths:
+        - {{ filebeat_log_dir }}/dummy.log

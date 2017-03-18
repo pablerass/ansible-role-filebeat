@@ -1,0 +1,16 @@
+# {{ ansible_managed }}
+filebeat:
+  config_dir: "{{ filebeat_conf_dir }}"
+
+{% if filebeat_logstash_hosts %}
+output:
+  logstash:
+    hosts: ["{{ filebeat_logstash_hosts|join(":" + filebeat_logstash_port|string + "\", \"") }}:{{filebeat_logstash_port}}"]
+{% endif %}
+
+logging:
+  level: "info"
+  files:
+    path: "{{ filebeat_log_dir }}"
+    rotateeverybytes: 10485760
+    keepfiles: 7

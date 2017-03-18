@@ -1,0 +1,29 @@
+---
+- include_vars: "windows.yml"
+
+- name: "Package"
+  win_chocolatey:
+    name: "filebeat"
+
+- name: "Configuration dir"
+  win_file:
+    path: "{{ filebeat_conf_dir }}"
+    state: "directory"
+
+- name: "Configuration"
+  win_template:
+    src: "filebeat.yml.j2"
+    dest: "{{ filebeat_bin_dir }}/filebeat.yml"
+  notify: "Restart Filebeat Windows"
+
+# This is ugly but needed to get service running
+- name: "Dummy prospector"
+  win_template:
+    src: "dummy.yml.j2"
+    dest: "{{ filebeat_conf_dir }}/dummy.yml"
+
+- name: "Service"
+  win_service:
+    name: "{{ filebeat_service }}"
+    state: "started"
+    start_mode: "auto"

@@ -1,0 +1,40 @@
+---
+- include_vars: "ubuntu.yml"
+
+- name: "Repository key url"
+  apt_key:
+    url: "{{ elasticsearch_apt_key_url }}"
+
+- name: "Repository"
+  apt_repository:
+    repo: "{{ elasticsearch_apt_repo }}"
+    filename: "elasticsearch"
+
+- name: "Package"
+  apt:
+    name: "filebeat"
+    update_cache: "yes"
+    cache_valid_time: 3600
+
+- name: "Configuration dir"
+  file:
+    path: "{{ filebeat_conf_dir }}"
+    state: "directory"
+
+- name: "Configuration"
+  template:
+    src: "filebeat.yml.j2"
+    dest: "/etc/filebeat/filebeat.yml"
+  notify: "Restart Filebeat Linux"
+
+# This is ugly but needed to get service running
+- name: "Dummy prospector"
+  template:
+    src: "dummy.yml.j2"
+    dest: "{{ filebeat_conf_dir }}/dummy.yml"
+
+- name: "Service"
+  service:
+    name: "{{ filebeat_service }}"
+    state: "started"
+    enabled: "yes"

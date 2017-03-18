@@ -1,0 +1,5 @@
+---
+filebeat_version: "5.2.1"
+filebeat_bin_dir: "C:/ProgramData/chocolatey/lib/filebeat/tools/filebeat-{{ filebeat_version }}-windows-x86_64"
+filebeat_conf_dir: "C:/ProgramData/filebeat/conf.d"
+filebeat_log_dir: "{{ filebeat_bin_dir }}/logs"
